@@ -1,5 +1,11 @@
 <script lang="ts" setup>
-const name = "Fabien";
+import type IRessource from "@/interfaces/iRessource";
+import defaultImage from "@/assets/default-image.png";
+import frenchFlag from "@/assets/frenchFlag.svg";
+
+import data from "@/data/db";
+
+const ressources = data as Array<IRessource>;
 </script>
 
 <template>
@@ -13,8 +19,49 @@ const name = "Fabien";
 
     <v-main>
       <v-container>
-        <h1>Hello {{ name }} !</h1>
+        <v-row>
+          <v-col
+            :cols="12"
+            :md="4"
+            :lg="3"
+            v-for="ressource in ressources"
+            :key="ressource.id"
+          >
+            <v-card
+              :class="
+                ressource.isTop ? 'ressource-item-top-card bg-secondary' : ''
+              "
+              :body-style="{ padding: '0px' }"
+            >
+              <v-img
+                height="250"
+                :src="ressource.image || defaultImage"
+                class="ressource-image"
+              />
+              <div style="padding: 14px">
+                <h3 class="ressource-item-title">
+                  <v-img
+                    v-if="ressource.lang === 'fr'"
+                    height="20"
+                    :src="frenchFlag"
+                  />
+                  {{ ressource.title }}
+                </h3>
+                <div class="ressource-item-infos bottom">
+                  {{ ressource.media }} ajouté(e) le
+                  {{ ressource.date }}
+                </div>
+              </div>
+            </v-card>
+          </v-col>
+        </v-row>
       </v-container>
     </v-main>
   </v-app>
 </template>
+
+<style>
+/* .ressource-item-top-card {
+  background-color: rgb(242, 249, 207);
+} */
+</style>
