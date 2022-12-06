@@ -39,18 +39,19 @@ const ressources = data as Array<IRessource>;
                 class="ressource-image"
               />
               <div style="padding: 14px">
-                <h3 class="ressource-item-title">
-                  <v-img
-                    v-if="ressource.lang === 'fr'"
-                    height="20"
-                    :src="frenchFlag"
-                  />
+                <v-img
+                  v-if="ressource.lang === 'fr'"
+                  height="20"
+                  :src="frenchFlag"
+                />
+                <v-card-title>
                   {{ ressource.title }}
-                </h3>
-                <div class="ressource-item-infos bottom">
+                </v-card-title>
+
+                <v-card-subtitle>
                   {{ ressource.media }} ajouté(e) le
                   {{ ressource.date }}
-                </div>
+                </v-card-subtitle>
               </div>
             </v-card>
           </v-col>
