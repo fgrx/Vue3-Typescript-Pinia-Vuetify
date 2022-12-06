@@ -1,8 +1,7 @@
 <script lang="ts" setup>
 import type IRessource from "@/interfaces/iRessource";
-import defaultImage from "@/assets/default-image.png";
-import frenchFlag from "@/assets/frenchFlag.svg";
 import RessourceItem from "@/components/RessourceItem.vue";
+import VideoPlayer from "@/components/VideoPlayer.vue";
 import { ref } from "vue";
 
 import data from "@/data/db";
@@ -74,6 +73,7 @@ const removeFromBookmarksAction = (ressourceToRemove: IRessource) => {
         </v-row>
       </v-container>
     </v-main>
+    <VideoPlayer />
   </v-app>
 </template>
 

@@ -4,6 +4,7 @@ import type IRessource from "@/interfaces/iRessource";
 import defaultImage from "@/assets/default-image.png";
 import frenchFlag from "@/assets/frenchFlag.svg";
 import { computed } from "vue";
+import eventBus from "@/plugins/eventBus";
 
 const props = defineProps<{ ressource: IRessource; isBookmark?: boolean }>();
 
@@ -33,6 +34,10 @@ const addToBookmarksAction = (ressource: IRessource) => {
 
 const removeFromBookmarksAction = (ressource: IRessource) => {
   emit("remove-from-bookmarks", ressource);
+};
+
+const playVideoAction = (ressource: IRessource) => {
+  eventBus.emit("open-video-modal", ressource);
 };
 </script>
 
@@ -70,6 +75,14 @@ const removeFromBookmarksAction = (ressource: IRessource) => {
           color="error"
           >- liste</v-btn
         >
+
+        <v-btn
+          color="secondary"
+          icon="mdi-play"
+          v-if="ressource.media === 'video'"
+          @click="playVideoAction(ressource)"
+        >
+        </v-btn>
       </v-card-actions>
     </div>
   </v-card>
