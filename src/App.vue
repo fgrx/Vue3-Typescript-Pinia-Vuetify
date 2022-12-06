@@ -2,12 +2,19 @@
 import type IRessource from "@/interfaces/iRessource";
 import RessourceItem from "@/components/RessourceItem.vue";
 import VideoPlayer from "@/components/VideoPlayer.vue";
+import Loading from "@/components/Loading.vue";
 import { ref } from "vue";
+import ressourceService from "@/services/ressourceService";
 
-import data from "@/data/db";
-
-const ressources = data as Array<IRessource>;
+const ressources = ref<IRessource[]>([]);
 const bookmarks = ref<IRessource[]>([]);
+const isLoading = ref(false);
+
+isLoading.value = true;
+ressourceService
+  .getRessources()
+  .then((res) => (ressources.value = res))
+  .then(() => (isLoading.value = false));
 
 const addToBookmarksAction = (ressource: IRessource) => {
   if (!bookmarks.value.includes(ressource)) bookmarks.value.push(ressource);
@@ -35,6 +42,8 @@ const removeFromBookmarksAction = (ressourceToRemove: IRessource) => {
 
     <v-main>
       <v-container>
+        <loading v-if="isLoading" />
+
         <v-card class="mb-10 pa-8" v-if="bookmarks.length">
           <v-card-title> Liste de lecture </v-card-title>
 

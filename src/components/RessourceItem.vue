@@ -77,7 +77,7 @@ const playVideoAction = (ressource: IRessource) => {
         >
 
         <v-btn
-          color="secondary"
+          color="primary"
           icon="mdi-play"
           v-if="ressource.media === 'video'"
           @click="playVideoAction(ressource)"
