@@ -46,11 +46,14 @@ const playVideoAction = (ressource: IRessource) => {
     :class="ressource.isTop ? 'ressource-item-top-card bg-secondary' : ''"
     :body-style="{ padding: '0px' }"
   >
-    <v-img
-      height="250"
-      :src="ressource.image || defaultImage"
-      class="ressource-image"
-    />
+    <router-link :to="{ name: 'Ressource', params: { id: ressource.id } }">
+      <v-img
+        height="250"
+        :src="ressource.image || defaultImage"
+        class="ressource-image"
+      />
+    </router-link>
+
     <div style="padding: 14px">
       <v-img v-if="ressource.lang === 'fr'" height="20" :src="frenchFlag" />
       <v-card-title>
