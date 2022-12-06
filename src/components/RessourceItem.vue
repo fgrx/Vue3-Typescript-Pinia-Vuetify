@@ -5,7 +5,7 @@ import defaultImage from "@/assets/default-image.png";
 import frenchFlag from "@/assets/frenchFlag.svg";
 import { computed } from "vue";
 
-const props = defineProps<{ ressource: IRessource }>();
+const props = defineProps<{ ressource: IRessource; isBookmark?: boolean }>();
 
 const dateInFrench = computed(() => {
   const ressourceDate = new Date(props.ressource.date);
@@ -24,6 +24,16 @@ const mediaInFrench = computed(() => {
       return "Autre";
   }
 });
+
+const emit = defineEmits(["add-to-bookmarks", "remove-from-bookmarks"]);
+
+const addToBookmarksAction = (ressource: IRessource) => {
+  emit("add-to-bookmarks", ressource);
+};
+
+const removeFromBookmarksAction = (ressource: IRessource) => {
+  emit("remove-from-bookmarks", ressource);
+};
 </script>
 
 <template>
@@ -46,6 +56,21 @@ const mediaInFrench = computed(() => {
         {{ mediaInFrench }} ajouté(e) le
         {{ dateInFrench }}
       </v-card-subtitle>
+
+      <v-card-actions>
+        <v-btn
+          @click="addToBookmarksAction(ressource)"
+          color="primary"
+          v-if="!isBookmark"
+          >+ liste</v-btn
+        >
+        <v-btn
+          v-if="isBookmark"
+          @click="removeFromBookmarksAction(ressource)"
+          color="error"
+          >- liste</v-btn
+        >
+      </v-card-actions>
     </div>
   </v-card>
 </template>
