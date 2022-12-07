@@ -7,7 +7,7 @@ export default {
 
     try {
       const response = await axios(
-        `${import.meta.env.VITE_API_SERVER}/ressources`
+        `${import.meta.env.VITE_API_SERVER}/ressources?_sort=date&_order=desc`
       );
       results = response.data;
     } catch (error) {
@@ -32,5 +32,17 @@ export default {
     }
 
     return results;
+  },
+  async addRessource(ressource: IRessource): Promise<IRessource | false> {
+    try {
+      const results = await axios.post(
+        `${import.meta.env.VITE_API_SERVER}/ressources`,
+        ressource
+      );
+      return results.data;
+    } catch (error) {
+      console.error("Une erreur s'est produite", error);
+      return false;
+    }
   },
 };

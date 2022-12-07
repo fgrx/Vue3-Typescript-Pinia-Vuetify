@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import RessourceForm from "@/components/RessourceForm.vue";
 import VideoPlayer from "@/components/VideoPlayer.vue";
+import Message from "@/components/Message.vue";
 import eventBus from "@/plugins/eventBus";
 
 const openRessourceFormAction = () => {
@@ -31,6 +32,7 @@ const openRessourceFormAction = () => {
       </v-container>
     </v-main>
     <VideoPlayer />
+    <Message />
     <RessourceForm />
   </v-app>
 </template>
