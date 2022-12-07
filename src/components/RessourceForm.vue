@@ -20,7 +20,7 @@ eventBus.on("open-ressource-form", () => {
 
       <v-card-actions>
         <v-btn variant="tonal" color="primary">Ajouter</v-btn>
-        <v-btn>Annuler</v-btn>
+        <v-btn @click="isOpen = false">Annuler</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
