@@ -1,5 +1,11 @@
 <script lang="ts" setup>
+import RessourceForm from "@/components/RessourceForm.vue";
 import VideoPlayer from "@/components/VideoPlayer.vue";
+import eventBus from "@/plugins/eventBus";
+
+const openRessourceFormAction = () => {
+  eventBus.emit("open-ressource-form");
+};
 </script>
 
 <template>
@@ -13,6 +19,10 @@ import VideoPlayer from "@/components/VideoPlayer.vue";
       <v-spacer />
       <v-btn :to="{ name: 'About' }">A propos</v-btn>
       <v-btn :to="{ name: 'Admin' }">Administration</v-btn>
+      <v-btn variant="tonal" color="outlined" @click="openRessourceFormAction">
+        <v-icon icon="mdi-plus"></v-icon>
+        Ajouter</v-btn
+      >
     </v-app-bar>
 
     <v-main>
@@ -21,6 +31,7 @@ import VideoPlayer from "@/components/VideoPlayer.vue";
       </v-container>
     </v-main>
     <VideoPlayer />
+    <RessourceForm />
   </v-app>
 </template>
 
