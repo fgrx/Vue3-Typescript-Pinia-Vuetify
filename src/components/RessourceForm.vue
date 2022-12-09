@@ -59,6 +59,11 @@ eventBus.on("open-ressource-form", () => {
 });
 
 const addRessourceAction = async () => {
+  const validationResult = await form.value.validate();
+  if (validationResult.valid) saveRessource();
+};
+
+const saveRessource = async () => {
   const dateObj = new Date();
   ressource.value.date = dateObj.toISOString();
 
@@ -72,10 +77,27 @@ const addRessourceAction = async () => {
     eventBus.emit("show-message", message);
     isOpen.value = false;
   } else {
-    message.value.text = "Une erreur s'est produite";
-    message.value.type = "error";
+    const message: IMessage = {
+      text: "Une erreur s'est produite 😔",
+      color: "error",
+    };
+    eventBus.emit("show-message", message);
   }
 };
+
+//Form Validation
+const form = ref();
+
+const titleRules = [
+  (v: string) => !!v || "Le titre est requis",
+  (v: string) =>
+    (v && v.length >= 5) || "Le titre doit avoir plus de 5 caractères",
+];
+
+const urlRules = [
+  (v: string) => !!v || "Une URL est requise",
+  (v: string) => (v && v.includes("http")) || "Une url doit contenir http",
+];
 </script>
 
 <template>
@@ -84,38 +106,48 @@ const addRessourceAction = async () => {
       <v-card-title>Ajout d'une nouvelle ressource</v-card-title>
 
       <v-card-text>
-        <v-alert v-if="message.text" :type="message.type">{{
-          message.text
-        }}</v-alert>
+        <v-form ref="form">
+          <v-alert v-if="message.text" :type="message.type">{{
+            message.text
+          }}</v-alert>
 
-        <v-text-field v-model="ressource.title" label="Title"></v-text-field>
+          <v-text-field
+            v-model="ressource.title"
+            label="Title"
+            :rules="titleRules"
+          ></v-text-field>
 
-        <v-text-field v-model="ressource.url" label="url"></v-text-field>
+          <v-text-field
+            v-model="ressource.url"
+            label="url"
+            :rules="urlRules"
+          ></v-text-field>
 
-        <v-text-field v-model="ressource.image" label="image"></v-text-field>
+          <v-text-field v-model="ressource.image" label="image"></v-text-field>
 
-        <v-textarea
-          v-model="ressource.description"
-          label="Description"
-        ></v-textarea>
+          <v-textarea
+            v-model="ressource.description"
+            label="Description"
+          ></v-textarea>
 
-        <v-rating v-model="ressource.rating" label="Note"></v-rating>
+          <v-rating v-model="ressource.rating" label="Note"></v-rating>
 
-        <v-select
-          v-model="ressource.lang"
-          label="Langue"
-          :items="itemsLang"
-          item-title="text"
-          item-value="value"
-        ></v-select>
+          <v-select
+            v-model="ressource.lang"
+            label="Langue"
+            :items="itemsLang"
+            item-title="text"
+            item-value="value"
+          ></v-select>
 
-        <v-select
-          v-model="ressource.media"
-          label="Type"
-          :items="itemsMedia"
-          item-title="text"
-          item-value="value"
-        ></v-select>
+          <v-select
+            v-model="ressource.media"
+            label="Type"
+            :items="itemsMedia"
+            item-title="text"
+            item-value="value"
+          ></v-select>
+        </v-form>
       </v-card-text>
 
       <v-card-actions>
