@@ -6,45 +6,63 @@ import {
 
 import Home from "@/views/Home.vue";
 import Ressource from "@/views/Ressource.vue";
+import useAuthStore from "@/stores/AuthStore";
 
 const routes: RouteRecordRaw[] = [
   {
-    component: Home,
     path: "/",
+    component: Home,
     name: "Home",
   },
   {
-    //Lazyloading de route
+    path: "/ressource/:id",
+    component: Ressource,
+    name: "Ressource",
+  },
+  {
+    path: "/a-propos",
     component: () => import("@/views/About.vue"),
-    path: "/about",
     name: "About",
   },
   {
-    //Lazyloading de route
-    component: () => import("@/views/Admin/Admin.vue"),
-    path: "/admin",
+    path: "/login",
+    component: () => import("@/views/Login.vue"),
+    name: "Login",
+  },
+  {
+    path: "/administration",
+    component: () => import("@/views/admin/Admin.vue"),
     name: "Admin",
+    meta: { needAuth: true },
     children: [
       {
-        component: () => import("@/views/Admin/Management.vue"),
         path: "management",
+        component: () => import("@/views/admin/Management.vue"),
         name: "AdminManagement",
       },
       {
-        component: () => import("@/views/Admin/Validation.vue"),
         path: "validation",
+        component: () => import("@/views/admin/Validation.vue"),
         name: "AdminValidation",
       },
     ],
   },
-  {
-    component: Ressource,
-    path: "/ressource/:id",
-    name: "Ressource",
-  },
 ];
 
-export default createRouter({
-  history: createWebHistory(),
-  routes,
+const router = createRouter({ history: createWebHistory(), routes });
+
+router.beforeEach((to, from, next) => {
+  const authStore = useAuthStore();
+
+  const isAuthenticated = authStore.auth.accessToken;
+
+  const isProtected = to.matched.some((route) => route.meta.needAuth);
+
+  if (isProtected && !isAuthenticated) {
+    next({ name: "Login" });
+  } else {
+    next();
+  }
 });
+
+export default router;
