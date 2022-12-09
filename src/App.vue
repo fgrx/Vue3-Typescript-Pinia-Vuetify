@@ -4,12 +4,26 @@ import VideoPlayer from "@/components/VideoPlayer.vue";
 import Message from "@/components/Message.vue";
 import eventBus from "@/plugins/eventBus";
 import useRessourceStore from "@/stores/ressourceStore";
+import useAuthStore from "@/stores/AuthStore";
+import { computed } from "vue";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+
+const authStore = useAuthStore();
 
 const ressourceStore = useRessourceStore();
 ressourceStore.loadRessources();
 
 const openRessourceFormAction = () => {
   eventBus.emit("open-ressource-form");
+};
+
+const isConnected = computed(() => authStore.isConnected);
+
+const disconnectAction = () => {
+  authStore.disconnect();
+  router.push({ name: "Home" });
 };
 </script>
 
@@ -28,6 +42,12 @@ const openRessourceFormAction = () => {
         <v-icon icon="mdi-plus"></v-icon>
         Ajouter</v-btn
       >
+      <v-btn
+        @click="disconnectAction"
+        v-if="isConnected"
+        icon="mdi-logout"
+        color="secondary"
+      />
     </v-app-bar>
 
     <v-main>

@@ -10,11 +10,19 @@ interface ICredentials {
 }
 
 export default defineStore("AuthStore", {
+  persist: true,
   state: () => ({
     auth: {} as IAuth,
   }),
   getters: {
     isConnected: (state) => (state.auth.accessToken ? true : false),
+    headers: (state) => {
+      return {
+        headers: {
+          Authorization: `Bearer ${state.auth.accessToken}`,
+        },
+      };
+    },
   },
   actions: {
     async connect(credentials: ICredentials): Promise<Boolean> {
@@ -39,6 +47,10 @@ export default defineStore("AuthStore", {
         });
         return false;
       }
+    },
+    disconnect() {
+      this.auth.accessToken = "";
+      this.auth.email = "";
     },
   },
 });

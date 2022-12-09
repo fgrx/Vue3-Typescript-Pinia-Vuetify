@@ -1,5 +1,6 @@
 import type IRessource from "@/interfaces/iRessource";
 import axios from "axios";
+import useAuthStore from "@/stores/AuthStore";
 
 export default {
   async getRessources(): Promise<IRessource[]> {
@@ -46,9 +47,15 @@ export default {
     }
   },
   async deleteRessource(ressource: IRessource): Promise<boolean> {
+    const authStore = useAuthStore();
+    const headers = authStore.headers;
+
     try {
       const results = await axios.delete(
-        `${import.meta.env.VITE_API_SERVER}/ressources/${ressource.id}`
+        `${import.meta.env.VITE_API_SERVER_PROTECTED}/ressources/${
+          ressource.id
+        }`,
+        headers
       );
       return true;
     } catch (error) {
@@ -57,10 +64,15 @@ export default {
     }
   },
   async updateRessource(ressource: IRessource): Promise<IRessource | false> {
+    const authStore = useAuthStore();
+    const headers = authStore.headers;
     try {
       const results = await axios.put(
-        `${import.meta.env.VITE_API_SERVER}/ressources/${ressource.id}`,
-        ressource
+        `${import.meta.env.VITE_API_SERVER_PROTECTED}/ressources/${
+          ressource.id
+        }`,
+        ressource,
+        headers
       );
       return results.data;
     } catch (error) {
