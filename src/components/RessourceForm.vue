@@ -2,8 +2,11 @@
 import eventBus from "@/plugins/eventBus";
 import ressourceService from "@/services/ressourceService";
 import type IRessource from "@/interfaces/iRessource";
-import { computed, ref } from "vue";
+import { ref } from "vue";
 import IMessage from "@/interfaces/IMessage";
+import useRessourceStore from "@/stores/ressourceStore";
+
+const ressourceStore = useRessourceStore();
 
 const isOpen = ref(false);
 const message = ref<{
@@ -67,7 +70,7 @@ const saveRessource = async () => {
   const dateObj = new Date();
   ressource.value.date = dateObj.toISOString();
 
-  const createdRessource = await ressourceService.addRessource(ressource.value);
+  const createdRessource = await ressourceStore.addRessource(ressource.value);
 
   if (createdRessource) {
     const message: IMessage = {

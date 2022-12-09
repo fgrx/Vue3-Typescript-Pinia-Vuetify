@@ -3,6 +3,10 @@ import RessourceForm from "@/components/RessourceForm.vue";
 import VideoPlayer from "@/components/VideoPlayer.vue";
 import Message from "@/components/Message.vue";
 import eventBus from "@/plugins/eventBus";
+import useRessourceStore from "@/stores/ressourceStore";
+
+const ressourceStore = useRessourceStore();
+ressourceStore.loadRessources();
 
 const openRessourceFormAction = () => {
   eventBus.emit("open-ressource-form");
