@@ -56,7 +56,7 @@ const playVideoAction = (ressource: IRessource) => {
 
     <div style="padding: 14px">
       <v-img v-if="ressource.lang === 'fr'" height="20" :src="frenchFlag" />
-      <v-card-title>
+      <v-card-title data-test-id="title">
         {{ ressource.title }}
       </v-card-title>
 
@@ -67,6 +67,7 @@ const playVideoAction = (ressource: IRessource) => {
 
       <v-card-actions>
         <v-btn
+          data-test-id="addButton"
           @click="addToBookmarksAction(ressource)"
           color="primary"
           v-if="!isBookmark"
