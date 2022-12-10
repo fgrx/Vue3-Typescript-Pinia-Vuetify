@@ -1,9 +1,10 @@
 import RessourceItem from "../RessourceItem.vue";
 import { describe, it, expect, beforeEach } from "vitest";
-import { mount, VueWrapper } from "@vue/test-utils";
+import { mount } from "@vue/test-utils";
+import IRessource from "@/interfaces/iRessource";
 
 describe(">>>>>>>>RessourceItem.vue", () => {
-  const ressource = {
+  const ressource: IRessource = {
     date: "2021-07-21T12:28:43.447Z",
     title: "Refactoring Comment améliorer le code existant",
     lang: "fr",
