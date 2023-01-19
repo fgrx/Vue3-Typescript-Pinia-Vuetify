@@ -26,16 +26,20 @@ const connectAction = async () => {
       <v-card-text>
         <v-form>
           <v-text-field
+            data-test-id="email"
             v-model="credentials.email"
             label="Adresse email"
           ></v-text-field>
           <v-text-field
+            data-test-id="password"
             v-model="credentials.password"
             type="password"
             label="Mot de passe"
           ></v-text-field>
 
-          <v-btn @click="connectAction" color="primary">Connexion</v-btn>
+          <v-btn data-test-id="button" @click="connectAction" color="primary"
+            >Connexion</v-btn
+          >
         </v-form>
       </v-card-text>
     </v-card>

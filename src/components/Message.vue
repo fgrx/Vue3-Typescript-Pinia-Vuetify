@@ -17,6 +17,6 @@ eventBus.on("show-message", (params) => {
 
 <template>
   <v-snackbar :color="message.color" v-model="isOpen">
-    {{ message.text }}
+    <span data-test-id="snackbar-message">{{ message.text }}</span>
   </v-snackbar>
 </template>
