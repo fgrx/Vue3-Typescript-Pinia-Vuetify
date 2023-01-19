@@ -27,27 +27,28 @@ const removeFromBookmarksAction = (ressourceToRemove: IRessource) => {
 
 <template>
   <div>
-    <v-card class="mb-10 pa-8" v-if="bookmarks.length">
-      <v-card-title> Liste de lecture </v-card-title>
-
-      <v-card-text>
-        <v-row>
-          <v-col
-            :cols="12"
-            :md="4"
-            :lg="3"
-            v-for="bookmark in bookmarks"
-            :key="bookmark.id"
-          >
-            <RessourceItem
-              @remove-from-bookmarks="removeFromBookmarksAction($event)"
-              :ressource="bookmark"
-              :isBookmark="true"
-            />
-          </v-col>
-        </v-row>
-      </v-card-text>
-    </v-card>
+    <transition name="fade">
+      <v-card class="mb-10 pa-8" v-if="bookmarks.length">
+        <v-card-title> Liste de lecture </v-card-title>
+        <v-card-text>
+          <TransitionGroup tag="div" class="v-row" name="fade-down">
+            <v-col
+              :cols="12"
+              :md="4"
+              :lg="3"
+              v-for="bookmark in bookmarks"
+              :key="bookmark.id"
+            >
+              <RessourceItem
+                @remove-from-bookmarks="removeFromBookmarksAction($event)"
+                :ressource="bookmark"
+                :isBookmark="true"
+              />
+            </v-col>
+          </TransitionGroup>
+        </v-card-text>
+      </v-card>
+    </transition>
 
     <v-row>
       <v-col
@@ -65,3 +66,17 @@ const removeFromBookmarksAction = (ressourceToRemove: IRessource) => {
     </v-row>
   </div>
 </template>
+
+<style scoped>
+.fade-down-enter-from {
+  opacity: 0;
+}
+.fade-down-leave-to {
+  opacity: 0;
+  transform: translatey(100px);
+}
+.fade-down-enter-active,
+.fade-down-leave-active {
+  transition: all 0.5s ease-out;
+}
+</style>

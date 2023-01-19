@@ -52,7 +52,11 @@ const disconnectAction = () => {
 
     <v-main>
       <v-container>
-        <router-view></router-view>
+        <router-view v-slot="{ Component }">
+          <transition name="fade" mode="out-in">
+            <component :is="Component"></component>
+          </transition>
+        </router-view>
       </v-container>
     </v-main>
     <VideoPlayer />
@@ -71,4 +75,18 @@ const disconnectAction = () => {
 /* .ressource-item-top-card {
   background-color: rgb(242, 249, 207);
 } */
+
+/* Transition de page */
+.fade-enter-from {
+  opacity: 0;
+  transform: translateX(-100px);
+}
+.fade-leave-to {
+  opacity: 0;
+  transform: translateX(100px);
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 0.5s ease-out;
+}
 </style>
