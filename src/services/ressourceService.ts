@@ -3,20 +3,46 @@ import axios from "axios";
 import useAuthStore from "@/stores/AuthStore";
 
 export default {
-  async getRessources(): Promise<IRessource[]> {
-    let results = [];
+  // async getRessources(): Promise<IRessource[]> {
+  //   let results = [];
 
-    try {
-      const response = await axios(
-        `${import.meta.env.VITE_API_SERVER}/ressources?_sort=date&_order=desc`
-      );
-      results = response.data;
-    } catch (error) {
-      alert("Une erreur s'est produite, veuillez réessayer plus tard...");
-      console.error(error);
-    }
+  //   try {
+  //     const response = await axios(
+  //       `${import.meta.env.VITE_API_SERVER}/ressources?_sort=date&_order=desc`
+  //     );
+  //     results = response.data;
+  //   } catch (error) {
+  //     alert("Une erreur s'est produite, veuillez réessayer plus tard...");
+  //     console.error(error);
+  //   }
 
-    return results;
+  //   return results;
+  // },
+
+  // getRessources(): Promise<IRessource[]> {
+  //   const response = axios(
+  //     `${import.meta.env.VITE_API_SERVER}/ressources?_sort=date&_order=desc`
+  //   )
+  //     .then((results) => results.data)
+  //     .catch((error) => {
+  //       alert("Une erreur s'est produite 😢");
+  //       console.error({ Erreur: error });
+  //     });
+
+  //   return response;
+  // },
+
+  getRessources(): Promise<IRessource[]> {
+    const response = fetch(
+      `${import.meta.env.VITE_API_SERVER}/ressources?_sort=date&_order=desc`
+    )
+      .then((response) => response.json())
+      .catch((error) => {
+        alert("Une erreur s'est produite 😢");
+        console.error({ Erreur: error });
+      });
+
+    return response;
   },
 
   async getRessourceById(id: string): Promise<IRessource> {

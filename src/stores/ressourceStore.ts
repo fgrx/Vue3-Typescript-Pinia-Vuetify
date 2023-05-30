@@ -12,8 +12,12 @@ const useRessourceStore = defineStore("ressourceStore", {
   },
   actions: {
     async loadRessources() {
-      const ressourcesLoaded = await ressourceService.getRessources();
-      this.ressources = ressourcesLoaded;
+      // const ressourcesLoaded = await ressourceService.getRessources();
+      // this.ressources = ressourcesLoaded;
+
+      ressourceService
+        .getRessources()
+        .then((results) => (this.ressources = results));
     },
 
     async addRessource(ressource: IRessource): Promise<IRessource | false> {
