@@ -1,44 +1,20 @@
-# default
+# Exercice DevWall
+
+Un projet complet basé sur Vue3, Vite, Setup API, Pinia, Vuetify et Typescript.
+
+Fichiers nécessaires pour la réalisation de l'exercice :
+[Télécharger les fichiers de données](https://u.pcloud.link/publink/show?code=kZG8StXZBLvQAmrug2kR12wpvSgh0BJzteQX)
 
 ## Project setup
 
 ```
-# yarn
-yarn
-
 # npm
 npm install
 
-# pnpm
-pnpm install
-```
-
-### Compiles and hot-reloads for development
-
-```
-# yarn
-yarn dev
-
-# npm
+# Lancer le serveur
 npm run dev
 
-# pnpm
-pnpm dev
-```
-
-### Compiles and minifies for production
+# Lancer le serveur rest
+npm run api
 
 ```
-# yarn
-yarn build
-
-# npm
-npm run build
-
-# pnpm
-pnpm build
-```
-
-### Customize configuration
-
-See [Configuration Reference](https://vitejs.dev/config/).
