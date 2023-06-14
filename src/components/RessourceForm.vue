@@ -1,14 +1,18 @@
 <script lang="ts" setup>
 import eventBus from "@/plugins/eventBus";
-import ressourceService from "@/services/ressourceService";
 import type IRessource from "@/interfaces/iRessource";
 import { ref } from "vue";
 import IMessage from "@/interfaces/IMessage";
 import useRessourceStore from "@/stores/ressourceStore";
+import { storeToRefs } from "pinia";
+import useGeneralStore from "@/stores/generalStore";
+import { memoryUsage } from "process";
 
 const ressourceStore = useRessourceStore();
 
-const isOpen = ref(false);
+const generalStore = useGeneralStore();
+const { ressourceForm } = storeToRefs(generalStore);
+
 const message = ref<{
   text: string;
   type: "error" | "success" | "warning" | "info" | undefined;
@@ -41,24 +45,21 @@ const itemsMedia = [
   { text: "Article", value: "post" },
 ];
 
-eventBus.on("open-ressource-form", () => {
-  isOpen.value = true;
-
-  message.value.text = "";
-  message.value.type = "success";
-
-  ressource.value = {
-    title: "",
-    url: "",
-    image: "",
-    description: "",
-    rating: 3,
-    lang: "fr",
-    media: "post",
-    isTop: false,
-    date: "",
-    isValid: false,
-  };
+generalStore.$subscribe((mutation, state) => {
+  if (state.ressourceForm.isOpen) {
+    ressource.value = {
+      title: "",
+      url: "",
+      image: "",
+      description: "",
+      rating: 3,
+      lang: "fr",
+      media: "post",
+      isTop: false,
+      date: "",
+      isValid: false,
+    };
+  }
 });
 
 const addRessourceAction = async () => {
@@ -78,7 +79,7 @@ const saveRessource = async () => {
       color: "success",
     };
     eventBus.emit("show-message", message);
-    isOpen.value = false;
+    ressourceForm.value.isOpen = false;
   } else {
     const message: IMessage = {
       text: "Une erreur s'est produite 😔",
@@ -104,7 +105,7 @@ const urlRules = [
 </script>
 
 <template>
-  <v-dialog v-model="isOpen" width="80%">
+  <v-dialog v-model="ressourceForm.isOpen" width="80%">
     <v-card>
       <v-card-title>Ajout d'une nouvelle ressource</v-card-title>
 
@@ -157,7 +158,7 @@ const urlRules = [
         <v-btn @click="addRessourceAction" variant="tonal" color="primary"
           >Ajouter</v-btn
         >
-        <v-btn @click="isOpen = false">Annuler</v-btn>
+        <v-btn @click="ressourceForm.isOpen = false">Annuler</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>

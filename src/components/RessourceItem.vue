@@ -4,7 +4,10 @@ import type IRessource from "@/interfaces/iRessource";
 import defaultImage from "@/assets/default-image.png";
 import frenchFlag from "@/assets/frenchFlag.svg";
 import { computed } from "vue";
-import eventBus from "@/plugins/eventBus";
+import { storeToRefs } from "pinia";
+import useGeneralStore from "@/stores/generalStore";
+
+const { videoPlayer } = storeToRefs(useGeneralStore());
 
 const props = defineProps<{ ressource: IRessource; isBookmark?: boolean }>();
 
@@ -37,7 +40,8 @@ const removeFromBookmarksAction = (ressource: IRessource) => {
 };
 
 const playVideoAction = (ressource: IRessource) => {
-  eventBus.emit("open-video-modal", ressource);
+  videoPlayer.value.ressource = ressource;
+  videoPlayer.value.isOpen = true;
 };
 </script>
 

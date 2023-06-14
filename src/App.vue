@@ -2,13 +2,16 @@
 import RessourceForm from "@/components/RessourceForm.vue";
 import VideoPlayer from "@/components/VideoPlayer.vue";
 import Message from "@/components/Message.vue";
-import eventBus from "@/plugins/eventBus";
 import useRessourceStore from "@/stores/ressourceStore";
 import useAuthStore from "@/stores/AuthStore";
 import { computed } from "vue";
 import { useRouter } from "vue-router";
+import { storeToRefs } from "pinia";
+import useGeneralStore from "./stores/generalStore";
 
 const router = useRouter();
+
+const { ressourceForm } = storeToRefs(useGeneralStore());
 
 const authStore = useAuthStore();
 
@@ -16,7 +19,7 @@ const ressourceStore = useRessourceStore();
 ressourceStore.loadRessources();
 
 const openRessourceFormAction = () => {
-  eventBus.emit("open-ressource-form");
+  ressourceForm.value.isOpen = true;
 };
 
 const isConnected = computed(() => authStore.isConnected);

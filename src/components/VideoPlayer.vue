@@ -1,27 +1,19 @@
 <script lang="ts" setup>
-import eventBus from "@/plugins/eventBus";
-
-import type IRessource from "@/interfaces/iRessource";
 import { computed, ref } from "vue";
+import useGeneralStore from "@/stores/generalStore";
+import { storeToRefs } from "pinia";
 
-const isOpen = ref(false);
-
-const ressource = ref();
-
-eventBus.on("open-video-modal", (ressourceSent) => {
-  isOpen.value = true;
-  ressource.value = ressourceSent as IRessource;
-});
+const { videoPlayer } = storeToRefs(useGeneralStore());
 
 const embedVideo = computed(() =>
-  ressource.value.url.replace(".com/watch?v=", ".com/embed/")
+  videoPlayer.value.ressource.url.replace(".com/watch?v=", ".com/embed/")
 );
 </script>
 
 <template>
-  <v-dialog width="auto" v-model="isOpen">
+  <v-dialog width="auto" v-model="videoPlayer.isOpen">
     <v-card>
-      <v-card-title>{{ ressource.title }}</v-card-title>
+      <v-card-title>{{ videoPlayer.ressource.title }}</v-card-title>
 
       <v-card-text>
         <iframe
@@ -36,7 +28,11 @@ const embedVideo = computed(() =>
       </v-card-text>
 
       <v-card-actions>
-        <v-btn color="primary" @click="isOpen = false" type="primary">
+        <v-btn
+          color="primary"
+          @click="videoPlayer.isOpen = false"
+          type="primary"
+        >
           Fermer
         </v-btn>
       </v-card-actions>
