@@ -4,10 +4,10 @@ import RessourceItem from "@/components/RessourceItem.vue";
 import Loading from "@/components/Loading.vue";
 import { ref, computed } from "vue";
 import useRessourceStore from "@/stores/ressourceStore";
+import { storeToRefs } from "pinia";
 
-const ressourceStore = useRessourceStore();
+const { validRessources: ressources } = storeToRefs(useRessourceStore());
 
-const ressources = computed(() => ressourceStore.validRessources);
 const bookmarks = ref<IRessource[]>([]);
 
 const addToBookmarksAction = (ressource: IRessource) => {
