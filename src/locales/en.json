@@ -1,0 +1,58 @@
+{
+  "nav": {
+    "about": "About us",
+    "admin": "Administration",
+    "add": "Add",
+    "languageChoice": "Language",
+    "management": "Management",
+    "validation": "Validation"
+  },
+  "pages": {
+    "home": {
+      "bookmarks": "Bookmarks"
+    },
+    "admin": {
+      "titleMainPage": "Administration",
+      "titleManagementPage": "Management",
+      "titleValidationPage": "Validation",
+      "title": "Title",
+      "date": "Date",
+      "operations": "Operations",
+      "validate": "Validate",
+      "delete": "delete"
+    },
+    "About": {
+      "titlePage": "A propos"
+    },
+    "resourceDetails": {
+      "titlePage": "Resource details",
+      "seeResource": "Open resource"
+    }
+  },
+  "form": {
+    "formTitle": "Add new resource",
+    "title": "Title",
+    "url": "URL",
+    "image": "Image",
+    "description": "Description",
+    "language": "Language",
+    "mediaType": "Media type",
+    "add": "Add",
+    "cancel": "Cancel",
+    "rating": "Rating"
+  },
+  "resourceItem": {
+    "list": "List",
+    "added": "added the"
+  },
+  "mediaTypes": {
+    "book": "Book",
+    "video": "Video",
+    "post": "Post",
+    "resource": "Ressource"
+  },
+  "languages": {
+    "fr": "French",
+    "en": "English"
+  }
+}

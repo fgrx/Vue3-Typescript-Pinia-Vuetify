@@ -8,6 +8,7 @@ import { computed } from "vue";
 import { useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
 import useGeneralStore from "./stores/generalStore";
+import { useI18n } from "vue-i18n";
 
 const router = useRouter();
 
@@ -28,6 +29,12 @@ const disconnectAction = () => {
   authStore.disconnect();
   router.push({ name: "Home" });
 };
+
+const { availableLocales } = useI18n();
+
+const itemsLocales = computed(() =>
+  availableLocales.map((locale) => ({ text: locale, value: locale }))
+);
 </script>
 
 <template>
@@ -39,12 +46,28 @@ const disconnectAction = () => {
         </router-link></v-app-bar-title
       >
       <v-spacer />
-      <v-btn :to="{ name: 'About' }">A propos</v-btn>
-      <v-btn :to="{ name: 'Admin' }">Administration</v-btn>
-      <v-btn variant="tonal" color="outlined" @click="openRessourceFormAction">
-        <v-icon icon="mdi-plus"></v-icon>
-        Ajouter</v-btn
+      <v-btn :to="{ name: 'About' }">{{ $t("nav.about") }}</v-btn>
+      <v-btn :to="{ name: 'Admin' }" class="ml-2">{{ $t("nav.admin") }}</v-btn>
+      <v-btn
+        variant="tonal"
+        color="outlined"
+        @click="openRessourceFormAction"
+        class="ml-2"
       >
+        <v-icon icon="mdi-plus"></v-icon>
+        {{ $t("nav.add") }}</v-btn
+      >
+
+      <v-form class="mx-4">
+        <v-select
+          v-model="$i18n.locale"
+          :label="$t('nav.languageChoice')"
+          :items="itemsLocales"
+          item-title="text"
+          item-value="value"
+        />
+      </v-form>
+
       <v-btn
         @click="disconnectAction"
         v-if="isConnected"

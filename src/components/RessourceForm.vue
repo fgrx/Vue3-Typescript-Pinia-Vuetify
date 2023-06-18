@@ -1,12 +1,14 @@
 <script lang="ts" setup>
 import eventBus from "@/plugins/eventBus";
 import type IRessource from "@/interfaces/iRessource";
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import IMessage from "@/interfaces/IMessage";
 import useRessourceStore from "@/stores/ressourceStore";
 import { storeToRefs } from "pinia";
 import useGeneralStore from "@/stores/generalStore";
-import { memoryUsage } from "process";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 
 const ressourceStore = useRessourceStore();
 
@@ -34,16 +36,16 @@ const ressource = ref<IRessource>({
   isValid: false,
 });
 
-const itemsLang = [
-  { text: "Anglais", value: "en" },
-  { text: "Français", value: "fr" },
-];
+const itemsLang = computed(() => [
+  { text: t("languages.en"), value: "en" },
+  { text: t("languages.fr"), value: "fr" },
+]);
 
-const itemsMedia = [
-  { text: "Livre", value: "book" },
-  { text: "Vidéo", value: "video" },
-  { text: "Article", value: "post" },
-];
+const itemsMedia = computed(() => [
+  { text: t("mediaTypes.book"), value: "book" },
+  { text: t("mediaTypes.video"), value: "video" },
+  { text: t("mediaTypes.post"), value: "post" },
+]);
 
 generalStore.$subscribe((mutation, state) => {
   if (state.ressourceForm.isOpen) {
@@ -107,7 +109,7 @@ const urlRules = [
 <template>
   <v-dialog v-model="ressourceForm.isOpen" width="80%">
     <v-card>
-      <v-card-title>Ajout d'une nouvelle ressource</v-card-title>
+      <v-card-title>{{ $t("form.formTitle") }}</v-card-title>
 
       <v-card-text>
         <v-form ref="form">
@@ -117,28 +119,34 @@ const urlRules = [
 
           <v-text-field
             v-model="ressource.title"
-            label="Title"
+            :label="$t('form.title')"
             :rules="titleRules"
           ></v-text-field>
 
           <v-text-field
             v-model="ressource.url"
-            label="url"
+            :label="$t('form.url')"
             :rules="urlRules"
           ></v-text-field>
 
-          <v-text-field v-model="ressource.image" label="image"></v-text-field>
+          <v-text-field
+            v-model="ressource.image"
+            :label="$t('form.image')"
+          ></v-text-field>
 
           <v-textarea
             v-model="ressource.description"
-            label="Description"
+            :label="$t('form.description')"
           ></v-textarea>
 
-          <v-rating v-model="ressource.rating" label="Note"></v-rating>
+          <v-rating
+            v-model="ressource.rating"
+            :label="$t('form.rating')"
+          ></v-rating>
 
           <v-select
             v-model="ressource.lang"
-            label="Langue"
+            :label="$t('form.language')"
             :items="itemsLang"
             item-title="text"
             item-value="value"
@@ -146,7 +154,7 @@ const urlRules = [
 
           <v-select
             v-model="ressource.media"
-            label="Type"
+            :label="$t('form.mediaType')"
             :items="itemsMedia"
             item-title="text"
             item-value="value"
@@ -155,10 +163,12 @@ const urlRules = [
       </v-card-text>
 
       <v-card-actions>
-        <v-btn @click="addRessourceAction" variant="tonal" color="primary"
-          >Ajouter</v-btn
-        >
-        <v-btn @click="ressourceForm.isOpen = false">Annuler</v-btn>
+        <v-btn @click="addRessourceAction" variant="tonal" color="primary">{{
+          $t("form.add")
+        }}</v-btn>
+        <v-btn @click="ressourceForm.isOpen = false">{{
+          $t("form.cancel")
+        }}</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>

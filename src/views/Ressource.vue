@@ -19,7 +19,7 @@ ressourceService.getRessourceById(id as string).then((result) => {
 
 <template>
   <div v-if="ressource">
-    <h1>Ressource</h1>
+    <h1>{{ $t("pages.resourceDetails.titlePage") }}</h1>
 
     <v-row>
       <v-col cols="12" md="5">
@@ -36,7 +36,9 @@ ressourceService.getRessourceById(id as string).then((result) => {
 
         <p class="mt-4">
           <a :href="ressource.url" target="blank">
-            <v-btn color="primary">Voir la ressource</v-btn>
+            <v-btn color="primary">{{
+              $t("pages.resourceDetails.seeResource")
+            }}</v-btn>
           </a>
         </p>
       </v-col>

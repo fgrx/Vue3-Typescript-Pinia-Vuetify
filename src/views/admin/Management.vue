@@ -13,9 +13,9 @@ const { deleteRessourceAction, validRessources } = useAdmin();
         <v-table>
           <thead>
             <tr>
-              <th class="text-left">Titre</th>
-              <th class="text-left">date</th>
-              <th>Opérations</th>
+              <th class="text-left">{{ $t("pages.admin.title") }}</th>
+              <th class="text-left">{{ $t("pages.admin.date") }}</th>
+              <th>{{ $t("pages.admin.operations") }}</th>
             </tr>
           </thead>
           <tbody>

@@ -1,0 +1,58 @@
+{
+  "nav": {
+    "about": "A propos",
+    "admin": "Administration",
+    "add": "Ajouter",
+    "languageChoice": "Langue",
+    "management": "Gestion",
+    "validation": "Validation"
+  },
+  "pages": {
+    "home": {
+      "bookmarks": "Liste de lecture"
+    },
+    "admin": {
+      "titleMainPage": "Administration",
+      "titleManagementPage": "Gestion",
+      "titleValidationPage": "Validation",
+      "title": "Titre",
+      "date": "Date",
+      "operations": "Opérations",
+      "validate": "Valider",
+      "delete": "Supprimer"
+    },
+    "About": {
+      "titlePage": "A propos"
+    },
+    "resourceDetails": {
+      "titlePage": "Détails de la ressource",
+      "seeResource": "Voir la ressource"
+    }
+  },
+  "form": {
+    "formTitle": "Ajout d'une nouvelle ressource",
+    "title": "Titre",
+    "url": "Lien",
+    "image": "Image",
+    "description": "Description",
+    "language": "Langue",
+    "mediaType": "Type de média",
+    "add": "Ajouter",
+    "cancel": "Annuler",
+    "rating": "Note"
+  },
+  "resourceItem": {
+    "list": "Liste",
+    "added": "ajouté le "
+  },
+  "mediaTypes": {
+    "book": "Livre",
+    "video": "Vidéo",
+    "post": "Article",
+    "resource": "Resource"
+  },
+  "languages": {
+    "fr": "Français",
+    "en": "Anglais"
+  }
+}

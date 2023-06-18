@@ -29,7 +29,7 @@ const removeFromBookmarksAction = (ressourceToRemove: IRessource) => {
   <div>
     <transition name="fade">
       <v-card class="mb-10 pa-8" v-if="bookmarks.length">
-        <v-card-title> Liste de lecture </v-card-title>
+        <v-card-title>{{ $t("pages.home.bookmarks") }}</v-card-title>
         <v-card-text>
           <TransitionGroup tag="div" class="v-row" name="fade-down">
             <v-col

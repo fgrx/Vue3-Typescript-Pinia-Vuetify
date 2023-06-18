@@ -16,19 +16,6 @@ const dateInFrench = computed(() => {
   return ressourceDate.toLocaleDateString();
 });
 
-const mediaInFrench = computed(() => {
-  switch (props.ressource.media) {
-    case "video":
-      return "Vidéo";
-    case "post":
-      return "Article";
-    case "book":
-      return "Livre";
-    default:
-      return "Autre";
-  }
-});
-
 const emit = defineEmits(["add-to-bookmarks", "remove-from-bookmarks"]);
 
 const addToBookmarksAction = (ressource: IRessource) => {
@@ -65,7 +52,8 @@ const playVideoAction = (ressource: IRessource) => {
       </v-card-title>
 
       <v-card-subtitle>
-        {{ mediaInFrench }} ajouté(e) le
+        {{ $t(`mediaTypes.${props.ressource.media}`) }}
+        {{ $t("resourceItem.added") }}
         {{ dateInFrench }}
       </v-card-subtitle>
 
@@ -75,13 +63,13 @@ const playVideoAction = (ressource: IRessource) => {
           @click="addToBookmarksAction(ressource)"
           color="primary"
           v-if="!isBookmark"
-          >+ liste</v-btn
+          >+ {{ $t("resourceItem.list") }}</v-btn
         >
         <v-btn
           v-if="isBookmark"
           @click="removeFromBookmarksAction(ressource)"
           color="error"
-          >- liste</v-btn
+          >- {{ $t("resourceItem.list") }}</v-btn
         >
 
         <v-btn
