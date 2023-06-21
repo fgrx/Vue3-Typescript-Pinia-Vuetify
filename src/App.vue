@@ -9,19 +9,16 @@ import { useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
 import useGeneralStore from "./stores/generalStore";
 import { useI18n } from "vue-i18n";
+import { ref } from "vue";
 
 const router = useRouter();
 
-const { ressourceForm } = storeToRefs(useGeneralStore());
+const isRessourceFormOpen = ref(false);
 
 const authStore = useAuthStore();
 
 const ressourceStore = useRessourceStore();
 ressourceStore.loadRessources();
-
-const openRessourceFormAction = () => {
-  ressourceForm.value.isOpen = true;
-};
 
 const isConnected = computed(() => authStore.isConnected);
 
@@ -51,7 +48,7 @@ const itemsLocales = computed(() =>
       <v-btn
         variant="tonal"
         color="outlined"
-        @click="openRessourceFormAction"
+        @click="isRessourceFormOpen = true"
         class="ml-2"
       >
         <v-icon icon="mdi-plus"></v-icon>
@@ -87,7 +84,10 @@ const itemsLocales = computed(() =>
     </v-main>
     <VideoPlayer />
     <Message />
-    <RessourceForm />
+    <RessourceForm
+      :isOpen="isRessourceFormOpen"
+      @close-ressource-form="isRessourceFormOpen = false"
+    />
   </v-app>
 </template>
 

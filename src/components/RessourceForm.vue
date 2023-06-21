@@ -1,19 +1,25 @@
 <script lang="ts" setup>
 import eventBus from "@/plugins/eventBus";
 import type IRessource from "@/interfaces/iRessource";
-import { ref, computed } from "vue";
+import { ref, computed, toRefs } from "vue";
 import IMessage from "@/interfaces/IMessage";
 import useRessourceStore from "@/stores/ressourceStore";
-import { storeToRefs } from "pinia";
 import useGeneralStore from "@/stores/generalStore";
 import { useI18n } from "vue-i18n";
+
+const props = defineProps<{ isOpen: boolean }>();
+
+const { isOpen } = toRefs(props);
+const emit = defineEmits(["close-ressource-form"]);
+const closeModal = () => {
+  emit("close-ressource-form");
+};
 
 const { t } = useI18n();
 
 const ressourceStore = useRessourceStore();
 
 const generalStore = useGeneralStore();
-const { ressourceForm } = storeToRefs(generalStore);
 
 const message = ref<{
   text: string;
@@ -23,7 +29,7 @@ const message = ref<{
   text: "",
 });
 
-const ressource = ref<IRessource>({
+const initialRessourceData: IRessource = {
   title: "",
   url: "",
   image: "",
@@ -34,7 +40,9 @@ const ressource = ref<IRessource>({
   isTop: false,
   date: "",
   isValid: false,
-});
+};
+
+const ressource = ref<IRessource>(initialRessourceData);
 
 const itemsLang = computed(() => [
   { text: t("languages.en"), value: "en" },
@@ -49,18 +57,7 @@ const itemsMedia = computed(() => [
 
 generalStore.$subscribe((mutation, state) => {
   if (state.ressourceForm.isOpen) {
-    ressource.value = {
-      title: "",
-      url: "",
-      image: "",
-      description: "",
-      rating: 3,
-      lang: "fr",
-      media: "post",
-      isTop: false,
-      date: "",
-      isValid: false,
-    };
+    ressource.value = initialRessourceData;
   }
 });
 
@@ -81,7 +78,7 @@ const saveRessource = async () => {
       color: "success",
     };
     eventBus.emit("show-message", message);
-    ressourceForm.value.isOpen = false;
+    closeModal();
   } else {
     const message: IMessage = {
       text: "Une erreur s'est produite 😔",
@@ -107,7 +104,7 @@ const urlRules = [
 </script>
 
 <template>
-  <v-dialog v-model="ressourceForm.isOpen" width="80%">
+  <v-dialog v-model="isOpen" persistent width="80%">
     <v-card>
       <v-card-title>{{ $t("form.formTitle") }}</v-card-title>
 
@@ -166,9 +163,7 @@ const urlRules = [
         <v-btn @click="addRessourceAction" variant="tonal" color="primary">{{
           $t("form.add")
         }}</v-btn>
-        <v-btn @click="ressourceForm.isOpen = false">{{
-          $t("form.cancel")
-        }}</v-btn>
+        <v-btn @click="closeModal">{{ $t("form.cancel") }}</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
