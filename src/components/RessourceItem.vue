@@ -16,7 +16,11 @@ const dateInFrench = computed(() => {
   return ressourceDate.toLocaleDateString();
 });
 
-const emit = defineEmits(["add-to-bookmarks", "remove-from-bookmarks"]);
+const emit = defineEmits([
+  "add-to-bookmarks",
+  "remove-from-bookmarks",
+  "open-video-modal",
+]);
 
 const addToBookmarksAction = (ressource: IRessource) => {
   emit("add-to-bookmarks", ressource);
@@ -29,6 +33,10 @@ const removeFromBookmarksAction = (ressource: IRessource) => {
 const playVideoAction = (ressource: IRessource) => {
   videoPlayer.value.ressource = ressource;
   videoPlayer.value.isOpen = true;
+};
+
+const playVideoWithEventsAction = (ressource: IRessource) => {
+  emit("open-video-modal", ressource);
 };
 </script>
 
@@ -77,6 +85,14 @@ const playVideoAction = (ressource: IRessource) => {
           icon="mdi-play"
           v-if="ressource.media === 'video'"
           @click="playVideoAction(ressource)"
+        >
+        </v-btn>
+
+        <v-btn
+          color="primary"
+          icon="mdi-film"
+          v-if="ressource.media === 'video'"
+          @click="playVideoWithEventsAction(ressource)"
         >
         </v-btn>
       </v-card-actions>
