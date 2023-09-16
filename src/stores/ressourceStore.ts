@@ -1,50 +1,58 @@
 import IRessource from "@/interfaces/iRessource";
 import { defineStore } from "pinia";
 import ressourceService from "@/services/ressourceService";
+import { computed, ref } from "vue";
 
-const useRessourceStore = defineStore("ressourceStore", {
-  state: () => ({ ressources: [] as IRessource[] }),
-  getters: {
-    validRessources: (state) =>
-      state.ressources.filter((ressource) => ressource.isValid),
-    invalidRessources: (state) =>
-      state.ressources.filter((ressource) => !ressource.isValid),
-  },
-  actions: {
-    async loadRessources() {
-      // const ressourcesLoaded = await ressourceService.getRessources();
-      // this.ressources = ressourcesLoaded;
+const useRessourceStore = defineStore("ressourceStore", () => {
 
-      ressourceService
-        .getRessources()
-        .then((results) => (this.ressources = results));
-    },
+  const ressources = ref<IRessource[]>([])
 
-    async addRessource(ressource: IRessource): Promise<IRessource | false> {
-      const newRessource = await ressourceService.addRessource(ressource);
-      if (newRessource) {
-        this.ressources.unshift(newRessource);
-      }
-      return newRessource;
-    },
-    async deleteRessource(ressourceToDelete: IRessource) {
-      const res = await ressourceService.deleteRessource(ressourceToDelete);
+  const validRessources = computed(() => ressources.value.filter((ressource) => ressource.isValid))
+  const invalidRessources = computed(() => ressources.value.filter((ressource) => ressource.isValid))
 
-      if (res) {
-        this.ressources = this.ressources.filter(
-          (ressource) => ressource.id !== ressourceToDelete.id
-        );
-      }
-    },
-    async updateRessource(ressource: IRessource) {
-      const res = await ressourceService.updateRessource(ressource);
 
-      if (res) {
-        const index = this.ressources.indexOf(ressource);
-        this.ressources[index] = ressource;
-      }
-    },
-  },
+
+
+  const loadRessources = async () => {
+    // const ressourcesLoaded = await ressourceService.getRessources();
+    // this.ressources = ressourcesLoaded;
+
+    ressourceService
+      .getRessources()
+      .then((results) => (ressources.value = results));
+  }
+
+  const addRessource = async (ressource: IRessource): Promise<IRessource | false> => {
+    const newRessource = await ressourceService.addRessource(ressource);
+    if (newRessource) {
+      ressources.value.unshift(newRessource);
+    }
+    return newRessource;
+  }
+
+
+  const deleteRessource = async (ressourceToDelete: IRessource) => {
+    const res = await ressourceService.deleteRessource(ressourceToDelete);
+
+    if (res) {
+      ressources.value = ressources.value.filter(
+        (ressource) => ressource.id !== ressourceToDelete.id
+      );
+    }
+  }
+
+
+  const updateRessource = async (ressource: IRessource) => {
+    const res = await ressourceService.updateRessource(ressource);
+
+    if (res) {
+      const index = ressources.value.indexOf(ressource);
+      ressources.value[index] = ressource;
+    }
+  }
+
+  return { ressources, invalidRessources, validRessources, addRessource, deleteRessource, updateRessource, loadRessources }
+
 });
 
 export default useRessourceStore;
