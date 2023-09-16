@@ -10,7 +10,9 @@ import { useI18n } from "vue-i18n";
 const props = defineProps<{ isOpen: boolean }>();
 
 const { isOpen } = toRefs(props);
-const emit = defineEmits(["close-ressource-form"]);
+
+const emit = defineEmits<{ (e: "close-ressource-form"): void }>();
+
 const closeModal = () => {
   emit("close-ressource-form");
 };

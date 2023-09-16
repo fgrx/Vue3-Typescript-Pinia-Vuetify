@@ -16,11 +16,11 @@ const dateInFrench = computed(() => {
   return ressourceDate.toLocaleDateString();
 });
 
-const emit = defineEmits([
-  "add-to-bookmarks",
-  "remove-from-bookmarks",
-  "open-video-modal",
-]);
+const emit = defineEmits<{
+  (e: "add-to-bookmarks", ressource: IRessource): void;
+  (e: "remove-from-bookmarks", ressource: IRessource): void;
+  (e: "open-video-modal", ressource: IRessource): void;
+}>();
 
 const addToBookmarksAction = (ressource: IRessource) => {
   emit("add-to-bookmarks", ressource);
