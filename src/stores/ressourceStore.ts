@@ -8,7 +8,7 @@ const useRessourceStore = defineStore("ressourceStore", () => {
   const ressources = ref<IRessource[]>([])
 
   const validRessources = computed(() => ressources.value.filter((ressource) => ressource.isValid))
-  const invalidRessources = computed(() => ressources.value.filter((ressource) => ressource.isValid))
+  const invalidRessources = computed(() => ressources.value.filter((ressource) => !ressource.isValid))
 
 
 
