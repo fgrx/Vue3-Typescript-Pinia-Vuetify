@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type IRessource from "@/interfaces/iRessource";
 import RessourceItem from "@/components/RessourceItem.vue";
-import VideoPlayerWithEvents from "@/components/VideoPlayerWithEvents.vue";
+import VideoPlayer from "@/components/videoPlayerWithDefineModel.vue";
 import { ref, computed } from "vue";
 import useRessourceStore from "@/stores/ressourceStore";
 import { storeToRefs } from "pinia";
@@ -24,10 +24,11 @@ const removeFromBookmarksAction = (ressourceToRemove: IRessource) => {
   // bookmarks.value.splice(position, 1);
 };
 
-const isVideoModalOpen = ref(false);
+const isOpen = ref(false);
 const videoRessource = ref();
+
 const openVideoModalAction = (ressource: IRessource) => {
-  isVideoModalOpen.value = true;
+  isOpen.value = true;
   videoRessource.value = ressource;
 };
 </script>
@@ -73,11 +74,7 @@ const openVideoModalAction = (ressource: IRessource) => {
       </v-col>
     </v-row>
 
-    <VideoPlayerWithEvents
-      :isOpen="isVideoModalOpen"
-      :ressource="videoRessource"
-      @close-video-modal="isVideoModalOpen = false"
-    />
+    <VideoPlayer v-model:is-open="isOpen" :ressource="videoRessource" />
   </div>
 </template>
 
